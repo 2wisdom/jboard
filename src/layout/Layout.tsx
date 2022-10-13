@@ -4,5 +4,6 @@ export type LayoutProps = {
 };
 
 export default function Layout(props: LayoutProps) {
-  return <div></div>;
+  const { children } = props;
+  return <div>{children}</div>;
 }
