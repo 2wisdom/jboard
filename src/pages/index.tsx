@@ -14,18 +14,18 @@ import Paper from "@mui/material/Paper";
 function createData(
   id: number,
   title: string,
-  author_id: string
-  // created_at: object
+  author_id: string,
+  created_at: string
 ) {
-  return { id, title, author_id };
+  return { id, title, author_id, created_at };
 }
 
 const rows = [
-  createData(1, "글제목1", "닉네임1"),
-  createData(2, "글제목2", "닉네임2"),
-  createData(3, "글제목3", "닉네임3"),
-  createData(4, "글제목4", "닉네임4"),
-  createData(5, "글제목5", "닉네임5"),
+  createData(1, "글제목1", "닉네임1", "2022-01-01"),
+  createData(2, "글제목2", "닉네임2", "2022-01-02"),
+  createData(3, "글제목3", "닉네임3", "2022-01-03"),
+  createData(4, "글제목4", "닉네임4", "2022-01-04"),
+  createData(5, "글제목5", "닉네임5", "2022-01-05"),
 ];
 
 export default function IndexPage() {
@@ -42,7 +42,7 @@ export default function IndexPage() {
               <TableCell>id</TableCell>
               <TableCell align="right">title</TableCell>
               <TableCell align="right">author_id</TableCell>
-              {/* <TableCell align="right">created_at</TableCell> */}
+              <TableCell align="right">created_at</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -56,7 +56,7 @@ export default function IndexPage() {
                 </TableCell>
                 <TableCell align="right">{row.title}</TableCell>
                 <TableCell align="right">{row.author_id}</TableCell>
-                {/* <TableCell align="right">{row.created_at}</TableCell> */}
+                <TableCell align="right">{row.created_at}</TableCell>
               </TableRow>
             ))}
           </TableBody>
