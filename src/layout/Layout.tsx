@@ -1,3 +1,6 @@
+import { Box, Toolbar } from "@mui/material";
+import AppBar from "./AppBar";
+
 export type LayoutProps = {
   children: any;
   title?: string;
@@ -5,5 +8,12 @@ export type LayoutProps = {
 
 export default function Layout(props: LayoutProps) {
   const { children } = props;
-  return <div>{children}</div>;
+
+  return (
+    <div>
+      <AppBar />
+      <Toolbar />
+      <Box component="main">{children}</Box>
+    </div>
+  );
 }
