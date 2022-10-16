@@ -3,6 +3,7 @@ import * as React from "react";
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import Layout from "../layout/Layout";
+import { Link } from "react-router-dom";
 
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -60,6 +61,7 @@ interface Meta {
   totalPages: number;
 }
 
+/*
 const json = {
   items: [
     {
@@ -80,6 +82,7 @@ const json = {
     totalPages: 1,
   },
 };
+*/
 
 interface PostResponse {
   items: Post[];
@@ -117,7 +120,9 @@ export default function IndexPage() {
                 <TableCell component="th" scope="row">
                   {row.id}
                 </TableCell>
-                <TableCell align="right">{row.title}</TableCell>
+                <Link to={`/posts/${row.id}`}>
+                  <TableCell align="right">{row.title}</TableCell>
+                </Link>
                 <TableCell align="right">{row.author_id}</TableCell>
                 <TableCell align="right">{row.created_at}</TableCell>
               </TableRow>
