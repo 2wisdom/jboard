@@ -25,66 +25,76 @@ export default function SignUpPage() {
 
   return (
     <Layout>
-      <Grid
-        container
-        spacing={0}
-        direction="column"
-        alignItems="center"
-        justifyContent="center"
-      >
-        <Container
-          sx={{
-            p: 3,
-            m: 10,
-          }}
-        >
-          <Box component="div">
-            <Typography>SignUp</Typography>
+      <Container component="main" maxWidth="xs">
+        <form>
+          <Box
+            sx={{
+              marginTop: 8,
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            <Typography component="h1" variant="h6">
+              Sign Up
+            </Typography>
+
+            <Box
+              component="form"
+              noValidate
+              // onSubmit={handleSubmit}
+              sx={{ mt: 3 }}
+            >
+              <TextField
+                name="name"
+                label="name"
+                variant="outlined"
+                margin="normal"
+                fullWidth
+                autoFocus
+              />
+
+              <TextField
+                name="email"
+                label="email"
+                variant="outlined"
+                autoComplete="email"
+                margin="normal"
+                fullWidth
+              />
+
+              <TextField
+                name="password"
+                label="password"
+                variant="outlined"
+                type="password"
+                autoComplete="current-password"
+                margin="normal"
+                fullWidth
+              />
+
+              <TextField
+                name="confirmPassword"
+                label="confirm password"
+                variant="outlined"
+                type="password"
+                autoComplete="current-password"
+                margin="normal"
+                fullWidth
+              />
+
+              <Button
+                variant="contained"
+                type="submit"
+                fullWidth
+                sx={{ mt: 3, mb: 2 }}
+              >
+                SignUp !
+              </Button>
+            </Box>
           </Box>
-          <Box component="form">
-            <TextField
-              required
-              type="name"
-              id="name"
-              label="name"
-              variant="standard"
-              // sx={{ m: 3 }}
-              margin="normal"
-              fullWidth
-            />
-            <TextField
-              required
-              type="email"
-              id="email"
-              label="email"
-              variant="standard"
-              margin="normal"
-              fullWidth
-            />
-            <TextField
-              required
-              type="password"
-              id="password"
-              label="password"
-              variant="standard"
-              margin="normal"
-              fullWidth
-            />
-            <TextField
-              required
-              type="password"
-              id="ConfirmPassword"
-              label="ConfirmPassword"
-              variant="standard"
-              margin="normal"
-              fullWidth
-            />
-          </Box>
-          <Button variant="outlined" sx={{ m: 5 }}>
-            SignUp
-          </Button>
-        </Container>
-      </Grid>
+        </form>
+      </Container>
     </Layout>
   );
 }
