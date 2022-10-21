@@ -8,16 +8,8 @@ import httpClient from "../libs/http-client";
 import { Box } from "@mui/system";
 
 export default function SignUpPage() {
-  // 데이터 불러오기
-  function useSignUp() {
-    return useQuery(["useSignUp"], async () => {
-      const { data } = await httpClient.post<user>("/user");
-      return data;
-    });
-  }
-
   // user interface
-  interface user {
+  interface User {
     email: string;
     password: string;
     nickname: string;
