@@ -7,14 +7,14 @@ import { useQuery } from "@tanstack/react-query";
 import httpClient from "../libs/http-client";
 import { Box } from "@mui/system";
 
-export default function SignUpPage() {
-  // user interface
-  interface User {
-    email: string;
-    password: string;
-    nickname: string;
-  }
+// user interface
+interface User {
+  email: string;
+  password: string;
+  nickname: string;
+}
 
+export default function SignUpPage() {
   return (
     <Layout>
       <Container component="main" maxWidth="xs">
