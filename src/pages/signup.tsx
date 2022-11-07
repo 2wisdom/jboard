@@ -1,9 +1,9 @@
 import * as React from "react";
 import { Button, Container, Grid, TextField, Typography } from "@mui/material";
-import { Controller } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { useFormAction } from "react-router-dom";
+import { QueryClient, QueryClientProvider, useQuery } from "react-query";
 import Layout from "../layout/Layout";
-import { useQuery } from "@tanstack/react-query";
 import httpClient from "../libs/http-client";
 import { Box } from "@mui/system";
 
@@ -14,9 +14,10 @@ interface User {
   nickname: string;
 }
 
-function usePosts() {
+// user 정보 가져오기
+function useUser() {
   return (
-    useQuery(["usePosts"]),
+    useQuery(["useUser"]),
     async () => {
       const { data } = await httpClient.post("/user");
       return data;
@@ -25,10 +26,20 @@ function usePosts() {
 }
 
 export default function SignUpPage() {
+  const { control, handleSubmit } = useForm({
+    defaultValues: {
+      name: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+    },
+  });
+
+  const onSubmit = (data) => console.log("data :", data);
+
   return (
     <Layout>
       <Container component="main" maxWidth="xs">
-        {/* <form> */}
         <Box
           sx={{
             marginTop: 8,
@@ -44,45 +55,88 @@ export default function SignUpPage() {
           <Box
             component="form"
             noValidate
-            // onSubmit={handleSubmit}
+            onSubmit={handleSubmit(onSubmit)}
             sx={{ mt: 3 }}
           >
-            <TextField
+            <Controller
               name="name"
-              label="name"
-              variant="outlined"
-              margin="normal"
-              fullWidth
-              autoFocus
+              control={control}
+              rules={{
+                required: true,
+                minLength: 2,
+                maxLength: 12,
+              }}
+              render={({ field }) => (
+                <TextField
+                  label="name"
+                  variant="outlined"
+                  margin="normal"
+                  fullWidth
+                  {...field}
+                />
+              )}
             />
 
-            <TextField
+            <Controller
               name="email"
-              label="email"
-              variant="outlined"
-              autoComplete="email"
-              margin="normal"
-              fullWidth
+              control={control}
+              rules={{
+                required: true,
+                pattern:
+                  /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+              }}
+              render={({ field }) => (
+                <TextField
+                  label="email"
+                  variant="outlined"
+                  autoComplete="email"
+                  margin="normal"
+                  fullWidth
+                  {...field}
+                />
+              )}
             />
 
-            <TextField
+            <Controller
               name="password"
-              label="password"
-              variant="outlined"
-              type="password"
-              autoComplete="current-password"
-              margin="normal"
-              fullWidth
+              control={control}
+              rules={{
+                required: true,
+                pattern:
+                  /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
+              }}
+              render={({ field }) => (
+                <TextField
+                  label="password"
+                  variant="outlined"
+                  type="password"
+                  autoComplete="current-password"
+                  margin="normal"
+                  fullWidth
+                  {...field}
+                />
+              )}
             />
 
-            <TextField
+            <Controller
               name="confirmPassword"
-              label="confirm password"
-              variant="outlined"
-              type="password"
-              autoComplete="current-password"
-              margin="normal"
-              fullWidth
+              control={control}
+              rules={{
+                required: true,
+                pattern:
+                  /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
+              }}
+              render={({ field }) => (
+                <TextField
+                  label="confirm password"
+                  variant="outlined"
+                  type="password"
+                  autoComplete="current-password"
+                  margin="normal"
+                  fullWidth
+                  {...field}
+                />
+              )}
             />
 
             <Button
@@ -95,7 +149,6 @@ export default function SignUpPage() {
             </Button>
           </Box>
         </Box>
-        {/* </form> */}
       </Container>
     </Layout>
   );
