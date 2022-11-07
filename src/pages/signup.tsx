@@ -14,78 +14,88 @@ interface User {
   nickname: string;
 }
 
+function usePosts() {
+  return (
+    useQuery(["usePosts"]),
+    async () => {
+      const { data } = await httpClient.post("/user");
+      return data;
+    }
+  );
+}
+
 export default function SignUpPage() {
   return (
     <Layout>
       <Container component="main" maxWidth="xs">
-        <form>
+        {/* <form> */}
+        <Box
+          sx={{
+            marginTop: 8,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
+          <Typography component="h1" variant="h6">
+            Sign Up
+          </Typography>
+
           <Box
-            sx={{
-              marginTop: 8,
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-            }}
+            component="form"
+            noValidate
+            // onSubmit={handleSubmit}
+            sx={{ mt: 3 }}
           >
-            <Typography component="h1" variant="h6">
-              Sign Up
-            </Typography>
+            <TextField
+              name="name"
+              label="name"
+              variant="outlined"
+              margin="normal"
+              fullWidth
+              autoFocus
+            />
 
-            <Box
-              component="form"
-              noValidate
-              // onSubmit={handleSubmit}
-              sx={{ mt: 3 }}
+            <TextField
+              name="email"
+              label="email"
+              variant="outlined"
+              autoComplete="email"
+              margin="normal"
+              fullWidth
+            />
+
+            <TextField
+              name="password"
+              label="password"
+              variant="outlined"
+              type="password"
+              autoComplete="current-password"
+              margin="normal"
+              fullWidth
+            />
+
+            <TextField
+              name="confirmPassword"
+              label="confirm password"
+              variant="outlined"
+              type="password"
+              autoComplete="current-password"
+              margin="normal"
+              fullWidth
+            />
+
+            <Button
+              variant="contained"
+              type="submit"
+              fullWidth
+              sx={{ mt: 3, mb: 2 }}
             >
-              <TextField
-                name="name"
-                label="name"
-                variant="outlined"
-                margin="normal"
-                fullWidth
-                autoFocus
-              />
-
-              <TextField
-                name="email"
-                label="email"
-                variant="outlined"
-                autoComplete="email"
-                margin="normal"
-                fullWidth
-              />
-
-              <TextField
-                name="password"
-                label="password"
-                variant="outlined"
-                type="password"
-                autoComplete="current-password"
-                margin="normal"
-                fullWidth
-              />
-
-              <TextField
-                name="confirmPassword"
-                label="confirm password"
-                variant="outlined"
-                type="password"
-                autoComplete="current-password"
-                margin="normal"
-                fullWidth
-              />
-
-              <Button
-                variant="contained"
-                type="submit"
-                fullWidth
-                sx={{ mt: 3, mb: 2 }}
-              >
-                SignUp !
-              </Button>
-            </Box>
+              SignUp !
+            </Button>
           </Box>
-        </form>
+        </Box>
+        {/* </form> */}
       </Container>
     </Layout>
   );
