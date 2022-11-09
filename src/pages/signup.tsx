@@ -15,17 +15,6 @@ interface User {
   nickname: string;
 }
 
-// user 정보 가져오기
-function useUser() {
-  return (
-    useQuery(["useUser"]),
-    async () => {
-      const { data } = await httpClient.post("/user");
-      return data;
-    }
-  );
-}
-
 type FormValue = {
   name: string;
   email: string;
@@ -179,7 +168,6 @@ export default function SignUpPage() {
               rules={{
                 required: { value: true, message: "필수입니다." },
                 validate(value) {
-                  // name = "password" 의 TextField 안에 있는 내용과 일치하지않으면 에러 메세지 !
                   if (watch("password") != value) {
                     return "비밀번호가 다릅니다.";
                   }
