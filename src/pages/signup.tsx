@@ -15,8 +15,6 @@ interface User {
   nickname: string;
 }
 
-// 유저정보
-
 type FormValue = {
   name: string;
   email: string;
