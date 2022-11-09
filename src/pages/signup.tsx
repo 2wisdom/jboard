@@ -36,8 +36,8 @@ type FormValue = {
 export default function SignUpPage() {
   const {
     control,
-    register,
     handleSubmit,
+    watch,
     formState: { errors },
   } = useForm<FormValue>({
     defaultValues: {
@@ -48,9 +48,15 @@ export default function SignUpPage() {
     },
   });
 
-  const onSubmit = (data: FormValue, err: FieldErrors<FormValue>) => {
+  const onSubmit = (
+    data: FormValue
+    // , err: FieldErrors<FormValue>
+  ) => {
     // err.email?.message;
+    console.log("data :", data);
   };
+
+  // console.log("data :", onSubmit.data);
 
   return (
     <Layout>
@@ -70,10 +76,11 @@ export default function SignUpPage() {
           <Box
             component="form"
             noValidate
-            onSubmit={handleSubmit(
-              (e, event) => {},
-              (err) => {}
-            )}
+            onSubmit={
+              handleSubmit(onSubmit)
+              // (e, event) => {},
+              // (err) => {}
+            }
             sx={{ mt: 3 }}
           >
             <Controller
@@ -99,21 +106,30 @@ export default function SignUpPage() {
 
             <Controller
               name="email"
-              ref={register({
-                required: "필수입니다",
-                pattern: {
-                  value:
-                    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-                  message:
-                    "8자리 이상, 영문, 숫자, 특수문자가 포함되어야 합니다.",
-                },
-              })}
               control={control}
-              // rules={{
-              //   required: { value: true, message: "필수입니다." },
-              //   pattern:
-              //     /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-              // }}
+              rules={{
+                required: { value: true, message: "필수입니다." },
+                validate(value) {
+                  const message = "이메일 형식이 아닙니다.";
+                  const emailRegx =
+                    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+                  /**
+                   * input 값이 이메일 형식이 맞다면, true 로 설정
+                   */
+                  // const isTest = emailRegx.test(value);
+
+                  /**
+                   * [isTest] 값이 true 이면 아무것도 return 하면 안된다.
+                   * 만약, 무엇인가 return 된다면, error 로 반환된다.
+                   */
+                  // if (isTest) {
+                  //   return;
+                  // }
+
+                  return emailRegx.test(value) || message;
+                },
+              }}
               render={({ field, fieldState: { error } }) => (
                 <TextField
                   label="email"
@@ -133,8 +149,14 @@ export default function SignUpPage() {
               control={control}
               rules={{
                 required: { value: true, message: "필수입니다." },
-                pattern:
-                  /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
+                validate(value) {
+                  const message =
+                    "8자리 이상, 영문, 숫자, 특수문자 조합이어야 합니다.";
+                  const pwRegx =
+                    /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
+
+                  return pwRegx.test(value) || message;
+                },
               }}
               render={({ field, fieldState: { error } }) => (
                 <TextField
@@ -156,8 +178,12 @@ export default function SignUpPage() {
               control={control}
               rules={{
                 required: { value: true, message: "필수입니다." },
-                pattern:
-                  /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
+                validate(value) {
+                  // name = "password" 의 TextField 안에 있는 내용과 일치하지않으면 에러 메세지 !
+                  if (watch("password") != value) {
+                    return "비밀번호가 다릅니다.";
+                  }
+                },
               }}
               render={({ field, fieldState: { error } }) => (
                 <TextField
